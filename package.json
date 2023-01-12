@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-  "scripts": {
-  },
+  "scripts": {},
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ts-toolbelt": "^9.6.0",
     "typescript": "^4.9.4"
   }
 }

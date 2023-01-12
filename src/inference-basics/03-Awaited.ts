@@ -16,4 +16,5 @@ const getUser = () => {
 };
 
 type ReturnValue = ReturnType<typeof getUser>
+// programmatic get value of promise
 type ReturnValue1 = Awaited<ReturnType<typeof getUser>>

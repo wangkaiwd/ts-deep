@@ -1,12 +1,18 @@
 lockfileVersion: 5.4
 
 specifiers:
+  ts-toolbelt: ^9.6.0
   typescript: ^4.9.4
 
 dependencies:
+  ts-toolbelt: 9.6.0
   typescript: 4.9.4
 
 packages:
+
+  /ts-toolbelt/9.6.0:
+    resolution: {integrity: sha512-nsZd8ZeNUzukXPlJmTBwUAuABDe/9qtVDelJeT/qW0ow3ZS3BsQJtNkan1802aM9Uf68/Y8ljw86Hu0h5IUW3w==}
+    dev: false
 
   /typescript/4.9.4:
     resolution: {integrity: sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==}

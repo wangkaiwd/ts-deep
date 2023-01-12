@@ -1,4 +1,4 @@
-export type Event =
+type Event =
   | {
   type: 'click'
   event: MouseEvent
