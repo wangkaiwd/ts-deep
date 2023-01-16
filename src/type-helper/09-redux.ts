@@ -51,6 +51,7 @@ interface AnyAction extends Action {
 
 type Reducer<S, T extends Action = AnyAction> = (state: S, action: T) => S
 
-const reducer = (state: any, action: Action) => {
+// How to use type variable with generic as function type
+const reducer: Reducer<{ a: 1, b: 2 }, Action> = (state, action) => {
   return state;
 };

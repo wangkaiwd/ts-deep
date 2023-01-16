@@ -15,3 +15,4 @@
   * [create union of strings with all possible permutations of two union](https://github.com/wangkaiwd/ts-deep/blob/main/src/template-literals/03-create-union-of-strings-with-all-possible-permutations-of-two-union.ts)
   * Record [first generic argument](https://github.com/wangkaiwd/ts-deep/blob/main/src/template-literals/05-create-object-keys-derived-from-union.ts)
   is a set of properties `K`
+* The pattern of returning `never` allows our conditional types to specify their "else" logic without worry too much about what it is. If you try to use something that's been typed as `never` you will get an error
