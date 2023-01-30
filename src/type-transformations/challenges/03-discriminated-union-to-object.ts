@@ -10,7 +10,13 @@ type Route =
   | { route: '/admin' }
   | { route: '/admin/users' }
 
-type RoutesObject = unknown;
+type RoutesObject1 = {
+  [K in Route as K['route']]: K extends { search: infer S } ? S : never
+};
+
+// type RoutesObject = {
+//   [R in Route as R["route"]]: R extends { search: infer S } ? S : never;
+// };
 
 // {
 //   "/": {
