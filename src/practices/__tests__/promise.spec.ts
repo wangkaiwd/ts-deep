@@ -6,20 +6,22 @@ describe('Promise', () => {
     vi.useFakeTimers();
   });
   afterEach(() => {
-    vi.resetAllMocks();
+    vi.restoreAllMocks();
   });
   it('should create promise instance and resolve with value', async () => {
     const mockFn = vi.fn((_value: any) => {
     });
-    const promise = new MyPromise((resolve) => {
+    const promise = new MyPromise<number>((resolve) => {
       setTimeout(() => {
         resolve(1);
       }, 1000);
     });
-    promise.then((value: any) => {
+    promise.then((value) => {
       mockFn(value);
+      return '1';
     });
     expect(mockFn).not.toHaveBeenCalled();
+    // todo: why this need await ?
     await vi.advanceTimersByTime(1000);
     expect(mockFn).toHaveBeenCalledWith(1);
   });

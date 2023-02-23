@@ -1,12 +1,15 @@
 type State = 'fulfilled' | 'rejected' | 'pending'
-type Resolve = (value: any) => void
+type Resolve<T> = (value: T) => void
 type Reject = (reason: any) => void
+type ResolveFn<T, TResult> = (value: T) => TResult
+type RejectFn<T> = (reason: any) => T
+const isFunction = (value: any): value is ((...args: any[]) => any) => typeof value === 'function';
 
-class MyPromise {
+class MyPromise<T> {
   state: State = 'pending';
-  value: any;
+  value: T | undefined = undefined;
   reason: any;
-  resolve: Resolve = (value) => {
+  resolve: Resolve<T> = (value) => {
     this.state = 'fulfilled';
     this.value = value;
     this.resolveFns.forEach((fn) => {
@@ -23,30 +26,32 @@ class MyPromise {
     });
   };
 
-  constructor (executor: (resolve: Resolve, reject: Reject) => void) {
+  constructor (executor: (resolve: Resolve<T>, reject: Reject) => void) {
     executor(this.resolve, this.reject);
   }
 
-  then (resolveFn: any, rejectFn?: any) {
-    if (!resolveFn) {
-      resolveFn = (value: any) => value;
-    }
-    if (!rejectFn) {
-      rejectFn = (reason: any) => {throw reason;};
-    }
-    return new MyPromise((resolve, reject) => {
+  then<TResult = T, TResult2 = never> (resolveFn?: ResolveFn<T, TResult> | undefined | null, rejectFn?: RejectFn<TResult2> | undefined | null) {
+    return new MyPromise<TResult | TResult2>((resolve, reject) => {
       if (this.state === 'pending') {
-        this.resolveFns.push((value: any) => {
+        this.resolveFns.push((value: T) => {
           queueMicrotask(() => {
-            const result = resolveFn(value);
-            resolve(result);
+            if (isFunction(resolveFn)) {
+              const result = resolveFn(value);
+              resolve(result);
+            } else {
+              resolve(value as any);
+            }
           });
         });
         this.rejectFns.push((reason: any) => {
           queueMicrotask(() => {
             try {
-              const result = rejectFn(reason);
-              resolve(result);
+              if (isFunction(rejectFn)) {
+                const result = rejectFn(reason);
+                resolve(result);
+              } else {
+                reject(reason);
+              }
             } catch (e) {
               reject(e);
             }
@@ -54,14 +59,22 @@ class MyPromise {
         });
       } else if (this.state === 'fulfilled') {
         queueMicrotask(() => {
-          const result = resolveFn(this.value);
-          resolve(result);
+          if (isFunction(resolveFn)) {
+            const result = resolveFn(this.value as any);
+            resolve(result);
+          } else {
+            resolve(this.value as any);
+          }
         });
       } else {
         queueMicrotask(() => {
           try {
-            const result = rejectFn(this.reason);
-            resolve(result);
+            if (isFunction(rejectFn)) {
+              const result = rejectFn(this.reason);
+              resolve(result);
+            } else {
+              reject(this.reason);
+            }
           } catch (e) {
             reject(e);
           }
