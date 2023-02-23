@@ -4,12 +4,17 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "test": "vitest"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "ts-toolbelt": "^9.6.0",
     "typescript": "^4.9.4"
+  },
+  "devDependencies": {
+    "vitest": "^0.28.5"
   }
 }
